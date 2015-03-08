@@ -66,9 +66,7 @@ class WrapItUp:
 
 		if cursor == None:
 			cursor = self._defaultCursor
-
-		print(*tupleArguments)
-
+			
 		try:
 			cursor.execute(stringQuery, *tupleArguments)
 		except Exception as error:
