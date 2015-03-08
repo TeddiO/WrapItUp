@@ -66,7 +66,7 @@ class WrapItUp:
 
 		if cursor == None:
 			cursor = self._defaultCursor
-			
+
 		try:
 			cursor.execute(stringQuery, *tupleArguments)
 		except Exception as error:
@@ -86,6 +86,9 @@ class WrapItUp:
 
 	#Closes the default connection and cursors only.
 	def CloseConnection(self):
+		for cursor in self._cursors:
+			cursor.close()
+
 		self._defaultCursor.close()
 		self._connection.close()
 
