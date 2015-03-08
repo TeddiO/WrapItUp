@@ -33,3 +33,18 @@ You're even able to specify a callback function if required for your data, which
 mySingleData = myDB.Query(<query>,[<args>], callbackFunction=myFunctionHere)
 ```
 
+##Finally..
+
+> This doesn't seem so good for x project of mine...
+
+The truth of it is, this is meant to get things off the ground incredibly quickly. For fine-grain control or situations where you need to validate your input to the database for committing, you're better off writing your own library or using the standard controls.
+
+> This doesn't seem to fit with \<insert design spec here\>
+
+For the most part, it comes down to personal preference and Python throwing warnings as opposed to errors. In the age-old 
+argument of spaces vs tabs, I prefer tabs. Likewise I don't mind my code >75 chars per line.
+
+> Can I contribute to try and somehow make this better?
+
+By all means! Any change is good change if that means getting things off the ground quicker (in a nice way of course)!
+
