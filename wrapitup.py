@@ -30,24 +30,30 @@ class WrapItUp:
 
 
 	#Allows custom cursor creation if required. Runs based off the class connection that exists at the time.
-	def CreateCursor(self, stringName):
-		if self.cursor['stringName']:
-			return
-		self._cursors['stringName'] = self._connection.cursor()
+	def CreateCursor(self, stringName, returnDictionary=False):
+		if stringName in self._cursors:
+			return False
+			
+		if returnDictionary == True:
+			self._cursors[stringName] = self._connection.cursor(pymysql.cursors.DictCursor)
+		else:
+			self._cursors[stringName] = self._connection.cursor()
+
+		return self._cursors[stringName]
 
 
 	#Explicit class to check whether or not a cursor exists. Does not work for default cursor as always presumed
 	#to exist.	
 	def GetValidCursor(self,stringName):
-		if self.cursor['stringName']:
+		if stringName in self._cursors:
 			return True
 		else:
 			return False
 
 	#Same as above technically but will return the cursor object
 	def GetCursor(self,stringName):
-		if self._cursors['stringName']:
-			return self._cursors['stringName']
+		if stringName in self._cursors:
+			return self._cursors[stringName]
 		else:
 			return None
 
@@ -82,6 +88,8 @@ class WrapItUp:
 			callbackFunction(results)
 		else:
 			return results
+
+			
 
 
 	#Closes the default connection and cursors only.
