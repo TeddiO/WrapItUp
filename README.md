@@ -29,7 +29,7 @@ Beyond all the smooth magic above, you're also capable of creating and using sep
 
 ```python
 aNewCursor = myDB.CreateCursor('DictsAreAwesome', type=db.cursors.DictCursor)
-charData = db.Query(<query>, [<args>], cursor = aNewCursor)
+charData = myDB.Query(<query>, [<args>], cursor=aNewCursor)
 ```
 
 By default four cursor types are available directly via WrapItUp, these being - 
