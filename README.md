@@ -25,7 +25,21 @@ mySingleData = myDB.Query(<query>,[<args>], single=True)
 And voila! A single row of returned data!
 
 
-Beyond all the smooth magic above, you're also capable of creating and using separate cursors by using the 'cursor=<cursorObject> parameter.
+Beyond all the smooth magic above, you're also capable of creating and using separate cursors.
+
+```python
+aNewCursor = myDB.CreateCursor('DictsAreAwesome', type=db.cursors.DictCursor)
+charData = db.Query(<query>, [<args>], cursor = aNewCursor)
+```
+
+By default four cursor types are available directly via WrapItUp, these being - 
+- Cursor (default)
+- DictCursor
+- SSCursor
+- SSDictCursor
+
+Any other pymysql cursors can be passed instead if required. 
+
 
 You're even able to specify a callback function if required for your data, which will pass your returned data as a parameter!
 
