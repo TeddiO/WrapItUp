@@ -4,7 +4,13 @@ class WrapItUp:
 
 	_connection = None
 	_defaultCursor = None
-	_cursors = {}
+	_customCursors = {}
+	cursors = {
+		'Cursor' : pymysql.cursors.Cursor,
+		'DictCursor' : pymysql.cursors.DictCursor,
+		'SSCursor' : pymysql.cursors.SSCursor, 
+		'SSDictCursor' : pymysql.cursors.SSDictCursor
+	}
 
 	def __init__(self, username='', password='', socket='', ip='', database='', timeout = 20):
 
@@ -30,30 +36,36 @@ class WrapItUp:
 
 
 	#Allows custom cursor creation if required. Runs based off the class connection that exists at the time.
-	def CreateCursor(self, stringName, returnDictionary=False):
-		if stringName in self._cursors:
+	'''
+		Cursors available - 
+			- Cursor
+			- DictCursor
+			- SSCursor
+			- SSDictCursor
+
+			- If you import pymysql directly into your file, you can use other available cursors.
+	'''
+	def CreateCursor(self, stringName, type=pymysql.cursors.Cursor):
+		if stringName in self._customCursors:
 			return False
 			
-		if returnDictionary == True:
-			self._cursors[stringName] = self._connection.cursor(pymysql.cursors.DictCursor)
-		else:
-			self._cursors[stringName] = self._connection.cursor()
+		self._customCursors[stringName] = self._connection.cursor(type)
 
-		return self._cursors[stringName]
+		return self._customCursors[stringName]
 
 
 	#Explicit class to check whether or not a cursor exists. Does not work for default cursor as always presumed
 	#to exist.	
 	def GetValidCursor(self,stringName):
-		if stringName in self._cursors:
+		if stringName in self._customCursors:
 			return True
 		else:
 			return False
 
 	#Same as above technically but will return the cursor object
 	def GetCursor(self,stringName):
-		if stringName in self._cursors:
-			return self._cursors[stringName]
+		if stringName in self._customCursors:
+			return self._customCursors[stringName]
 		else:
 			return None
 
@@ -64,14 +76,11 @@ class WrapItUp:
 			- Can use a different cursor if required
 			- Doesn't technially catch sql specific arguments only yet, should do but oh well.
 	'''
-	def Query(self, stringQuery, *tupleArguments, callbackFunction=None, cursor=None, single=False):
+	def Query(self, stringQuery, *tupleArguments, callbackFunction=None, cursor=_defaultCursor, single=False):
 		#Allow for another cursor to be used here if required for io performance. Cursors techniaclly queue up queries.
 
 		if self._connection == None:
 			return False
-
-		if cursor == None:
-			cursor = self._defaultCursor
 
 		try:
 			cursor.execute(stringQuery, *tupleArguments)
@@ -94,7 +103,7 @@ class WrapItUp:
 
 	#Closes the default connection and cursors only.
 	def CloseConnection(self):
-		for cursor in self._cursors:
+		for cursor in self._customCursors:
 			cursor.close()
 
 		self._defaultCursor.close()
