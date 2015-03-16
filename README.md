@@ -5,7 +5,7 @@ At the moment there are two often used mysql libraries often used, the generic o
 pyMySQL which is a pure python implementation, which is actually quite lovely. The only downside is it's a little elaborate and explcit
 (in true Python form!) so quickly rolling out code quickly can be troublesome.
 
-###Heres where WrapItUp comes in to play!
+###Here's where WrapItUp comes in to play!
 
 The main power behind WrapItUp comes from the fact you just the following:
 
