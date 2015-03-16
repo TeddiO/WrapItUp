@@ -44,7 +44,13 @@ Any other pymysql cursors can be passed instead if required.
 You're even able to specify a callback function if required for your data, which will pass your returned data as a parameter!
 
 ```python
-mySingleData = myDB.Query(<query>,[<args>], callbackFunction=myFunctionHere)
+myDB.Query(<query>,[<args>], callbackFunction=myFunctionHere)
+
+(meanwhile,  another function in a memory space far, far away).
+
+myFunctionHere(returnedData)
+  #Do whatever
+  ...
 ```
 
 ##Finally..
