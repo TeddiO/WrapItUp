@@ -76,11 +76,13 @@ class WrapItUp:
 			- Can use a different cursor if required
 			- Doesn't technially catch sql specific arguments only yet, should do but oh well.
 	'''
-	def Query(self, stringQuery, *tupleArguments, callbackFunction=None, cursor=_defaultCursor, single=False):
+	def Query(self, stringQuery, *tupleArguments, callbackFunction=None, cursor=None, single=False):
 		#Allow for another cursor to be used here if required for io performance. Cursors techniaclly queue up queries.
 
 		if self._connection == None:
 			return False
+
+		cursor = cursor or self._defaultCursor
 
 		try:
 			cursor.execute(stringQuery, *tupleArguments)
