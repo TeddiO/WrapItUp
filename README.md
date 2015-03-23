@@ -5,7 +5,7 @@ At the moment there are two often used mysql libraries often used, the generic o
 pyMySQL which is a pure python implementation, which is actually quite lovely. The only downside is it's a little elaborate and explcit
 (in true Python form!) so quickly rolling out code quickly can be troublesome.
 
-###Heres where WrapItUp comes in to play!
+###Here's where WrapItUp comes in to play!
 
 The main power behind WrapItUp comes from the fact you just the following:
 
@@ -25,12 +25,32 @@ mySingleData = myDB.Query(<query>,[<args>], single=True)
 And voila! A single row of returned data!
 
 
-Beyond all the smooth magic above, you're also capable of creating and using separate cursors by using the 'cursor=<cursorObject> parameter.
+Beyond all the smooth magic above, you're also capable of creating and using separate cursors.
+
+```python
+aNewCursor = myDB.CreateCursor('DictsAreAwesome', type=db.cursors.DictCursor)
+charData = myDB.Query(<query>, [<args>], cursor=aNewCursor)
+```
+
+By default four cursor types are available directly via WrapItUp, these being - 
+- Cursor (default)
+- DictCursor
+- SSCursor
+- SSDictCursor
+
+Any other pymysql cursors can be passed instead if required. 
+
 
 You're even able to specify a callback function if required for your data, which will pass your returned data as a parameter!
 
 ```python
-mySingleData = myDB.Query(<query>,[<args>], callbackFunction=myFunctionHere)
+myDB.Query(<query>,[<args>], callbackFunction=myFunctionHere)
+
+(meanwhile,  another function in a memory space far, far away).
+
+myFunctionHere(returnedData)
+  #Do whatever
+  ...
 ```
 
 ##Finally..
