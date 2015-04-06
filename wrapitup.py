@@ -105,7 +105,7 @@ class WrapItUp:
 
 	#Closes the default connection and cursors only.
 	def CloseConnection(self):
-		for cursor in self._customCursors:
+		for key, cursor in self._customCursors.items():
 			cursor.close()
 
 		self._defaultCursor.close()
