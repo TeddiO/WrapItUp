@@ -4,7 +4,6 @@ class WrapItUp:
 
 	_connection = None
 	_defaultCursor = None
-	_customCursors = {}
 	cursors = {
 		'Cursor' : pymysql.cursors.Cursor,
 		'DictCursor' : pymysql.cursors.DictCursor,
@@ -13,6 +12,12 @@ class WrapItUp:
 	}
 
 	def __init__(self, username='', password='', socket='', ip='', database='', timeout = 20):
+
+		'''Python 'quirk' means if _customCursors is created above in the main body, we end up with a shared, refferable object
+		as dictionaries aren't immutable which means even if the object is 'destroyed, _customCursors lives on.
+		To prevent shared / cached behaviour, create it here instead.
+		'''
+		self._customCursors = {}
 
 		if socket != '':
 			try:
