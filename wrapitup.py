@@ -11,7 +11,7 @@ class WrapItUp:
 		'SSDictCursor' : pymysql.cursors.SSDictCursor
 	}
 
-	def __init__(self, username=None, password=None, socket=None, host=None, database=None, timeout = 20, autocommit=True):
+	def __init__(self, username=None, password=None, socket=None, host=None, database=None, timeout = 20, autocommit=True, charset="utf8mb4"):
 
 		self._customCursors = {} #Create this here to prevent it being shared.
 
@@ -19,7 +19,7 @@ class WrapItUp:
 			raise Exception("Both socket and ip are set. Use one or the other!")
 
 		try:
-			self._connection = pymysql.connect(unix_socket=socket, host=host, user=username, passwd=password, db=database, connect_timeout = timeout)
+			self._connection = pymysql.connect(unix_socket=socket, host=host, user=username, passwd=password, db=database, connect_timeout = timeout, charset=charset)
 			self._connection.autocommit(autocommit) #Saves us a headache with having to run .commit() after every insert query.
 			self._defaultCursor = self._connection.cursor()
 		except Exception as Error:
